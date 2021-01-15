@@ -49,7 +49,7 @@ async function runPlain(cmd, ...args) {
 }
 
 async function main() {
-  const parentRef = 'HEAD~50';
+  const parentRef = '619ef5978c3fbfa7c9d6a65c835e1e87dbcec55e';
   process.cwd(resolvePath(__dirname, '..'));
 
   const diff = await runPlain(
@@ -59,6 +59,7 @@ async function main() {
     parentRef,
     '{packages,plugins}/*/package.json',
   );
+  console.log('DEBUG: diff =', diff);
   const packageList = diff.split(/^(.*)$/gm).filter(s => s.trim());
 
   const packageVersions = await Promise.all(
@@ -72,6 +73,7 @@ async function main() {
       return { name, oldVersion, newVersion };
     }),
   );
+  console.log('DEBUG: packageVersions =', packageVersions);
 
   const newVersions = packageVersions.filter(
     ({ oldVersion, newVersion }) => oldVersion !== newVersion,
