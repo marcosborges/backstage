@@ -1,5 +1,24 @@
 # @backstage/create-app
 
+## 0.3.6
+
+### Patch Changes
+
+- 92dbbcedd: Add `*-credentials.yaml` to gitignore to prevent accidental commits of sensitive credential information.
+
+  To apply this change to an existing installation, add these lines to your `.gitignore`
+
+  ```gitignore
+  # Sensitive credentials
+  *-credentials.yaml
+  ```
+
+- db05f7a35: Remove the `@types/helmet` dev dependency from the app template. This
+  dependency is now unused as the package `helmet` brings its own types.
+
+  To update your existing app, simply remove the `@types/helmet` dependency from
+  the `package.json` of your backend package.
+
 ## 0.3.5
 
 ### Patch Changes
