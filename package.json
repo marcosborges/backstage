@@ -78,5 +78,9 @@
     "transformModules": [
       "@kyma-project/asyncapi-react"
     ]
+  },
+  "dependencies": {
+    "aws-sdk": "^2.828.0",
+    "date-fns": "^2.16.1"
   }
 }

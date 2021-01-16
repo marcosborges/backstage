@@ -231,6 +231,15 @@ scaffolder:
         $env: BITBUCKET_USERNAME
       token:
         $env: BITBUCKET_TOKEN
+  aws:
+    enable: true
+    auth:
+      clientId:
+        $env: AWS_ACCESS_KEY_ID
+      clientSecret:
+        $env: AWS_SECRET_ACCESS_KEY
+      tokenUrl:
+        $env: AWS_SESSION_TOKEN
 
 auth:
   environment: development

@@ -18,6 +18,8 @@ import { Logger } from 'winston';
 import { Octokit } from '@octokit/rest';
 import { Gitlab } from '@gitbeaker/node';
 import { getPersonalAccessTokenHandler, WebApi } from 'azure-devops-node-api';
+import { CodeCommit } as AWS from 'aws-sdk';
+
 import { Config } from '@backstage/config';
 import { TemplateEntityV1alpha1 } from '@backstage/catalog-model';
 import {
@@ -31,6 +33,8 @@ import { GithubPublisher, RepoVisibilityOptions } from './github';
 import { GitlabPublisher } from './gitlab';
 import { AzurePublisher } from './azure';
 import { BitbucketPublisher } from './bitbucket';
+import { AwsPublisher } from './aws';
+
 
 export class Publishers implements PublisherBuilder {
   private publisherMap = new Map<RemoteProtocol, PublisherBase>();
@@ -192,6 +196,25 @@ export class Publishers implements PublisherBuilder {
         );
       }
     }
+
+    const awsConfig = config.getOptionalConfig('scaffolder.aws');
+    if (awsConfig && awsConfig.enable) {
+      try {
+        const AwsPublisher = new AwsPublisher();
+        publishers.register('aws/api', AwsPublisher);
+      } catch (e) {
+        const providerName = 'aws';
+        if (process.env.NODE_ENV !== 'development') {
+          throw new Error(
+            `Failed to initialize ${providerName} scaffolding provider, ${e.message}`,
+          );
+        }
+        logger.warn(
+          `Skipping ${providerName} scaffolding provider, ${e.message}`,
+        );
+      }
+    }
+
     return publishers;
   }
 }
